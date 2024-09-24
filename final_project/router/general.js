@@ -25,13 +25,17 @@ public_users.post("/register", function (req, res) {
     res.status(201).send("User registered successfully");
   });
 // Get the book list available in the shop
-public_users.get('/',function (req, res) {
-    bouquin = JSON.stringify(books);
-    return res.status(300).json(bouquin);
+public_users.get('/',async (req, res) => {
+    try{
+        bouquin = JSON.stringify(books);
+        return res.status(300).json(bouquin);
+    } catch(error) {
+        res.status(500).json({message : "error fetching the book list"})
+    }
 });
 
 // Get book details based on ISBN
-public_users.get('/isbn/:isbn', function (req, res) {
+public_users.get('/isbn/:isbn', async (req, res) => {
     const isbn = req.params.isbn; // Récupère l'ISBN passé dans l'URL
     const book = books[isbn];     // Récupère le livre correspondant à l'ISBN
   
@@ -43,7 +47,7 @@ public_users.get('/isbn/:isbn', function (req, res) {
   });
   
 // Get book details based on author
-public_users.get('/author/:author', function (req, res) {
+public_users.get('/author/:author', async (req, res) => {
     const author = req.params.author; // Récupère l'auteur passé dans l'URL
     const booksByAuthor = [];         // Tableau pour stocker les livres trouvés
   
@@ -62,7 +66,7 @@ public_users.get('/author/:author', function (req, res) {
   });
 
 // Get all books based on title
-public_users.get('/title/:title', function (req, res) {
+public_users.get('/title/:title', async (req, res) => {
     const title = req.params.title; // Récupère le titre passé dans l'URL
     const booksByTitle = [];        // Tableau pour stocker les livres trouvés
   
